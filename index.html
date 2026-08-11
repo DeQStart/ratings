@@ -590,16 +590,6 @@ document.getElementById('logout-btn').addEventListener('click', () => {
     document.querySelector('.screen-app').style.display = 'none';
   }
 })();
-  const debugEl = document.createElement('div');
-debugEl.style.color = 'red';
-debugEl.textContent = 'DEBUG: avgRating=' + movie.avgRating;
-card.appendChild(debugEl);
-  // Временный маячок: если этот текст появится — значит, файл точно обновился
-const beacon = document.createElement('div');
-beacon.id = 'beacon';
-beacon.style.cssText = 'position:fixed;top:10px;left:10px;background:#000;color:#0f0;padding:8px 12px;border-radius:4px;z-index:9999;font-family:monospace;font-weight:bold;';
-beacon.textContent = 'КОД ОБНОВЛЁН: ' + new Date().toLocaleTimeString();
-document.body.appendChild(beacon);
 </script>
 </body>
 </html>
