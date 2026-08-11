@@ -590,6 +590,10 @@ document.getElementById('logout-btn').addEventListener('click', () => {
     document.querySelector('.screen-app').style.display = 'none';
   }
 })();
+  const debugEl = document.createElement('div');
+debugEl.style.color = 'red';
+debugEl.textContent = 'DEBUG: avgRating=' + movie.avgRating;
+card.appendChild(debugEl);
 </script>
 </body>
 </html>
