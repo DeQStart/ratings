@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Мой КиноПоиск</title>
+  <style>
+    :root {
+      --kp-bg: #1a1a1d;
+      --kp-card-bg: #2b2b2b;
+      --kp-text: #e0e0e0;
+      --kp-border: #444;
+      --color-high: #2ecc71;
+      --color-mid: #95a5a6;
+      --color-low: #e74c3c;
+      --input-bg: #3a3a3a;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--kp-bg);
+      color: var(--kp-text);
+      margin: 0;
+      padding: 16px;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .screen-login, .screen-app { display: none; }
+    .screen-login { display: block; }
+
+    .login-screen {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      height: 80vh; text-align: center;
+    }
+    .login-box {
+      background: var(--kp-card-bg); padding: 24px; border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4); width: 320px;
+      border: 1px solid var(--kp-border);
+    }
+    .login-box input {
+      width: 100%; padding: 10px; margin-bottom: 14px;
+      border: 1px solid var(--kp-border); border-radius: 6px;
+      box-sizing: border-box; font-size: 14px;
+      background: var(--input-bg); color: var(--kp-text);
+    }
+    .btn-primary {
+      width: 100%; padding: 10px; background: #fff; color: #000;
+      border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px;
+    }
+    .btn-primary:hover { background: #eee; }
+    .btn-secondary {
+      width: 100%; padding: 10px; background: transparent; color: var(--kp-text);
+      border: 1px solid var(--kp-border); border-radius: 6px;
+      cursor: pointer; font-size: 14px; margin-top: 8px;
+    }
+    .btn-secondary:hover { border-color: #888; }
+
+    h1 { text-align: center; margin-bottom: 20px; font-weight: 400; }
+    .controls {
+      display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; align-items: center;
+    }
+    #search {
+      flex: 1; min-width: 200px; padding: 8px 12px;
+      border: 1px solid var(--kp-border); border-radius: 6px;
+      background: var(--input-bg); color: var(--kp-text);
+    }
+    #sort {
+      padding: 8px 10px; border: 1px solid var(--kp-border);
+      border-radius: 6px; background: var(--input-bg); color: var(--kp-text);
+    }
+
+    .movies-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px;
+    }
+    .movie-card {
+      background: var(--kp-card-bg); border-radius: 8px; overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      display: flex; flex-direction: row; height: 156px; border: 1px solid var(--kp-border);
+    }
+    .card-poster-area {
+      position: relative; width: 96px; flex-shrink: 0; background: #333;
+      display: flex; align-items: center; justify-content: center; color: #888; font-size: 12px;
+    }
+    .card-rating-badge {
+      position: absolute; top: 8px; left: 8px;
+      padding: 4px 8px; border-radius: 4px; color: white; font-weight: bold;
+      font-size: 13px; min-width: 52px; text-align: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    }
+    .rating-high { background: var(--color-high); }
+    .rating-mid { background: var(--color-mid); }
+    .rating-low { background: var(--color-low); }
+
+    .card-info {
+      flex-grow: 1; padding: 12px 14px 12px 10px;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .card-title {
+      font-weight: 600; margin: 0 0 4px 0; font-size: 15px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .card-meta { color: #aaa; font-size: 13px; line-height: 1.3; margin-bottom: 6px; }
+    .card-cast { color: #999; font-size: 12px; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card-crew { color: #999; font-size: 12px; line-height: 1.3; }
+
+    .rating-row {
+      display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; align-items: center;
+    }
+    .rate-btn {
+      padding: 4px 7px; border: none; background: #444; color: #ccc;
+      border-radius: 4px; font-size: 11px; cursor: pointer;
+      min-width: 28px; text-align: center;
+    }
+    .rate-btn:hover { background: #555; }
+    .rate-btn.active { background: var(--color-high); color: white; }
+
+    .empty-state {
+      grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #777;
+    }
+
+    .logout-btn {
+      background: transparent; border: 1px solid var(--kp-border); color: var(--kp-text);
+      padding: 6px 12px; border-radius: 6px; cursor: pointer; float: right; font-size: 13px;
+    }
+    .logout-btn:hover { border-color: #888; color: #fff; }
+
+    .feedback-area {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #999;
+    }
+
+    @media (max-width: 500px) {
+      .movies-grid { grid-template-columns: 1fr; }
+      .movie-card { height: auto; flex-direction: column; }
+      .card-poster-area { width: 100%; height: 140px; }
+      .card-info { padding: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Экран входа -->
+  <div class="screen-login container">
+    <div class="login-screen">
+      <h1>Мой КиноПоиск</h1>
+      <div class="login-box">
+        <input type="text" id="login-input" placeholder="Логин" />
+        <input type="password" id="password-input" placeholder="Пароль" />
+        <button class="btn-primary" id="login-btn">Войти</button>
+        <button class="btn-secondary" id="create-btn">Создать профиль</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Основное приложение -->
+  <div class="screen-app container">
+    <h1>Мой КиноПоиск <span id="user-display" style="font-size:14px; color:#aaa;"></span>
+      <button class="logout-btn" id="logout-btn">Выйти</button>
+    </h1>
+
+    <div class="controls">
+       <div style="margin-bottom: 16px; padding: 12px; background: #333; border-radius: 8px;">
+  <p style="margin: 0 0 8px 0; color: #aaa; font-size: 13px;">Панель статистики (только для тебя)</p>
+  <button id="export-btn" style="background: #fff; color: #000; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold;">Выгрузить статистику</button>
+  <textarea id="export-area" readonly style="width: 100%; height: 100px; margin-top: 10px; background: #222; color: #fff; border: 1px solid #444; border-radius: 4px; font-family: monospace; display: block;"></textarea>
+</div>
+      <input type="text" id="search" placeholder="Поиск по названию..." />
+      <select id="sort">
+        <option value="avg_rating">По среднему рейтингу (убывание)</option>
+        <option value="year">По году (новые)</option>
+        <option value="title">По названию (А–Я)</option>
+      </select>
+    </div>
+
+    <div class="movies-grid" id="movies-list"></div>
+  </div>
+
+<script>
+  const STORAGE_USERS = 'kp_users';
+  const SALT_LENGTH = 16;
+  const ITERATIONS = 100000;
+
+  // Фильмы (база)
+  const initialMovies = [
+    { id: 1, title: 'Мурзазель', year: 2026, type: 'фильм', cast: 'Красавчик', crew: 'Давид Ващенко' },
+    { id: 2, title: 'Кухня 2 (неофициальное продолжение)', year: 2026, type: 'сериал (2 серии)', cast: 'Артём Шут', crew: 'Артём Шут' },
+    { id: 3, title: 'Отображение', year: 2024, type: 'сериал (5 серий)', cast: 'Давид Ващенко', crew: 'Давид Ващенко' },
+    { id: 4, title: 'Котюль', year: 2024, type: 'сериал (7 серий)', cast: 'Артём Шут, озвучка', crew: 'Артём Шут' },
+    { id: 5, title: 'Похищение Бони и Киселёчка', year: 2023, type: 'фильм', cast: 'Артём Шут, Софья Шут', crew: 'Артём Шут' },
+    { id: 6, title: 'Похищение двух Лапачек', year: 2023, type: 'фильм', cast: 'Давид Ващенко', crew: 'Давид Ващенко' },
+    { id: 7, title: 'Сок', year: 2021, type: 'сериал (3 серии)', cast: 'Давид Ващенко, озвучка', crew: 'Давид Ващенко' },
+    { id: 8, title: 'Сок и машина времени', year: 2023, type: 'фильм', cast: 'Давид Ващенко, озвучка', crew: 'Давид Ващенко' },
+    { id: 9, title: '39 и её друзья', year: 2020, type: 'сериал (20 серий)', cast: 'Давид Ващенко, озвучка', crew: 'Давид Ващенко' },
+    { id: 10, title: '38 и его друзья', year: 2020, type: 'сериал (6 серий)', cast: 'Давид Ващенко, озвучка', crew: 'Давид Ващенко' },
+    { id: 11, title: '38 и его друзья 2', year: 2020, type: 'сериал (2 серии)', cast: 'Давид Ващенко, озвучка', crew: 'Давид Ващенко' },
+    { id: 12, title: '38. Перезапуск', year: 2021, type: 'сериал (1 серия)', cast: 'Давид Ващенко, озвучка', crew: 'Давид Ващенко' },
+  ];
+
+  let currentUser = null;
+
+  async function generateSalt() {
+    const buffer = new Uint8Array(SALT_LENGTH);
+    crypto.getRandomValues(buffer);
+    return buffer;
+  }
+
+  async function hashPassword(password, salt) {
+    const enc = new TextEncoder();
+    const keyMaterial = await window.crypto.subtle.importKey(
+      'raw', enc.encode(password), { name: 'PBKDF2' }, false, ['deriveBits']
+    );
+    const hashBuffer = await window.crypto.subtle.deriveBits(
+      { name: 'PBKDF2', salt: salt, iterations: ITERATIONS, hash: 'SHA-256' },
+      keyMaterial, 256
+    );
+    const bytes = new Uint8Array(hashBuffer);
+    let hex = '';
+    for (let i = 0; i < bytes.length; i++) {
+      const h = bytes[i].toString(16).padStart(2, '0');
+      hex += h;
+    }
+    return hex;
+  }
+
+  function arrayBufferToHex(buffer) {
+    const bytes = new Uint8Array(buffer);
+    let hex = '';
+    for (let i = 0; i < bytes.length; i++) {
+      const h = bytes[i].toString(16).padStart(2, '0');
+      hex += h;
+    }
+    return hex;
+  }
+
+  function hexToUint8Array(hex) {
+    const len = hex.length / 2;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = parseInt(hex.substr(i * 2, 2), 16);
+    }
+    return bytes;
+  }
+
+  function getUsers() {
+    const raw = localStorage.getItem(STORAGE_USERS);
+    return raw ? JSON.parse(raw) : {};
+  }
+
+  function saveUsers(users) {
+    localStorage.setItem(STORAGE_USERS, JSON.stringify(users));
+  }
+
+  async function createUser(login, password) {
+    if (!login || !password) return false;
+    const users = getUsers();
+    if (users[login]) return false; // логин занят
+
+    const salt = await generateSalt();
+    const saltHex = arrayBufferToHex(salt);
+    const passwordHash = await hashPassword(password, salt);
+
+    users[login] = { salt: saltHex, hash: passwordHash };
+    saveUsers(users);
+    return true;
+  }
+
+  async function checkLogin(login, password) {
+    const users = getUsers();
+    const user = users[login];
+    if (!user) return false;
+
+    const saltBytes = hexToUint8Array(user.salt);
+    const computedHash = await hashPassword(password, saltBytes);
+    return computedHash === user.hash;
+  }
+
+  function showLoginScreen() {
+    document.querySelector('.screen-login').style.display = 'block';
+    document.querySelector('.screen-app').style.display = 'none';
+  }
+
+  function showAppScreen(login) {
+    currentUser = login;
+    document.getElementById('user-display').textContent = `(профиль: ${login})`;
+    document.querySelector('.screen-login').style.display = 'none';
+    document.querySelector('.screen-app').style.display = 'block';
+    render();
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function getUserRatingsKey() {
+    return `ratings_${currentUser}`;
+  }
+
+  function loadMyRatings() {
+    const key = getUserRatingsKey();
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : {};
+  }
+
+  function saveMyRating(movieId, rating) {
+    const key = getUserRatingsKey();
+    const ratings = loadMyRatings();
+    ratings[movieId] = rating;
+    localStorage.setItem(key, JSON.stringify(ratings));
+  }
+
+  function getAllRatingsForMovie(movieId) {
+    const users = getUsers();
+    const allRatings = [];
+    for (const login in users) {
+      const key = `ratings_${login}`;
+      const raw = localStorage.getItem(key);
+      if (!raw) continue;
+      const ratings = JSON.parse(raw);
+      if (ratings[movieId] !== undefined) {
+        allRatings.push(ratings[movieId]);
+      }
+    }
+    return allRatings;
+  }
+
+  function getAvgRating(movieId) {
+    const ratings = getAllRatingsForMovie(movieId);
+    if (ratings.length === 0) return null;
+    const sum = ratings.reduce((acc, r) => acc + r, 0);
+    return Math.round((sum / ratings.length) * 10) / 10; // округление до 0.1
+  }
+
+  function getMyRating(movieId) {
+    const myRatings = loadMyRatings();
+    return myRatings[movieId];
+  }
+
+  function sortMovies(movies) {
+    const sortBy = document.getElementById('sort').value;
+    return [...movies].sort((a, b) => {
+      if (sortBy === 'avg_rating') {
+        const avgA = getAvgRating(a.id) || 0;
+        const avgB = getAvgRating(b.id) || 0;
+        return avgB - avgA; // по убыванию
+      } else if (sortBy === 'year') {
+        return b.year - a.year;
+      } else {
+        return a.title.localeCompare(b.title, 'ru');
+      }
+    });
+  }
+
+  function filterMovies(movies) {
+    const query = document.getElementById('search').value.toLowerCase().trim();
+    if (!query) return movies;
+    return movies.filter(m =>
+      m.title.toLowerCase().includes(query) ||
+      m.cast.toLowerCase().includes(query) ||
+      m.crew.toLowerCase().includes(query)
+    );
+  }
+
+  function render() {
+    const movies = initialMovies;
+    const filtered = filterMovies(movies);
+    const sorted = sortMovies(filtered);
+    const list = document.getElementById('movies-list');
+    list.innerHTML = '';
+
+    if (sorted.length === 0) {
+      list.innerHTML = '<div class="empty-state">Ничего не найдено</div>';
+      return;
+    }
+
+    sorted.forEach(movie => {
+      const avgRating = getAvgRating(movie.id);
+      const myRating = getMyRating(movie.id);
+
+      let badgeClass = 'rating-mid';
+      let badgeText = '-';
+      if (avgRating !== null) {
+        badgeText = avgRating.toFixed(1);
+        if (avgRating >= 7.0) badgeClass = 'rating-high';
+        else if (avgRating < 5.0) badgeClass = 'rating-low';
+      }
+
+      const card = document.createElement('div');
+      card.className = 'movie-card';
+      card.innerHTML = `
+        <div class="card-poster-area">
+          <span>постер</span>
+          ${avgRating !== null
+            ? `<div class="card-rating-badge ${badgeClass}">${badgeText}</div>`
+            : ''}
+        </div>
+        <div class="card-info">
+          <div>
+            <div class="card-title">${escapeHtml(movie.title)}</div>
+            <div class="card-meta">${movie.year} • ${movie.type}</div>
+            <div class="card-cast">В ролях: ${escapeHtml(movie.cast)}</div>
+            <div class="card-crew">Режиссёр: ${escapeHtml(movie.crew)}</div>
+          </div>
+          <div class="rating-row">
+            ${[1,2,3,4,5,6,7,8,9,10].map(r => {
+              const active = (myRating === r) ? 'active' : '';
+              return `<button class="rate-btn ${active}" data-movie-id="${movie.id}" data-rating="${r}">${r}</button>`;
+            }).join('')}
+          </div>
+          <div class="feedback-area"></div>
+        </div>
+      `;
+      list.appendChild(card);
+
+    });
+
+    // обработчики оценок
+    list.querySelectorAll('.rate-btn').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const card = btn.closest('.movie-card');
+    const feedbackEl = card.querySelector('.feedback-area');
+
+    const movieId = parseInt(e.currentTarget.dataset.movieId, 10);
+    const rating = parseInt(e.currentTarget.dataset.rating, 10);
+
+    saveMyRating(movieId, rating);
+
+    // Показываем понятную строчку
+    if (feedbackEl) {
+      feedbackEl.textContent = `✅ Ты поставил ${rating} этому фильму`;
+      feedbackEl.style.color = '#2e7d32';
+    }
+
+    render();
+  });
+});
+  }
+
+  // --- Обработчики событий ---
+  document.getElementById('login-btn').addEventListener('click', async () => {
+    const login = document.getElementById('login-input').value.trim();
+    const password = document.getElementById('password-input').value;
+    if (!(login && password)) {
+      alert('Введите логин и пароль');
+      return;
+    }
+    const ok = await checkLogin(login, password);
+    if (ok) {
+      showAppScreen(login);
+    } else {
+      alert('Неверный логин или пароль');
+    }
+  });
+
+  document.getElementById('create-btn').addEventListener('click', async () => {
+    const login = document.getElementById('login-input').value.trim();
+    const password = document.getElementById('password-input').value;
+    if (!(login && password)) {
+      alert('Введите логин и пароль');
+      return;
+    }
+    const created = await createUser(login, password);
+    if (created) {
+      alert('Профиль создан. Теперь войдите.');
+      document.getElementById('password-input').value = '';
+    } else {
+      alert('Такой логин уже занят или данные некорректны');
+    }
+  });
+
+  document.getElementById('logout-btn').addEventListener('click', () => {
+    currentUser = null;
+    document.getElementById('login-input').value = '';
+    document.getElementById('password-input').value = '';
+    showLoginScreen();
+  });
+
+  document.getElementById('search').addEventListener('input', render);
+  document.getElementById('sort').addEventListener('change', render);
+
+  // при загрузке страницы проверяем, есть ли текущий пользователь
+  const storedUser = localStorage.getItem('kp_current_user');
+  if (storedUser) {
+    // простая проверка: пользователь существует
+    const users = getUsers();
+    if (users[storedUser]) {
+      currentUser = storedUser;
+      showAppScreen(currentUser);
+    } else {
+      localStorage.removeItem('kp_current_user');
+      showLoginScreen();
+    }
+  } else {
+    showLoginScreen();
+  }  
+  // Функция выгрузки статистики
+function exportStats() {
+  const stats = [];
+  for (const key of Object.keys(localStorage)) {
+    if (key.startsWith('ratings_')) {
+      const user = key.replace('ratings_', '');
+      try {
+        const ratings = JSON.parse(localStorage.getItem(key));
+        for (const movieId in ratings) {
+          stats.push(`movie_id:${movieId},rating:${ratings[movieId]},user:${user}`);
+        }
+      } catch (e) {}
+    }
+  }
+
+  const area = document.getElementById('export-area');
+  if (area) {
+    area.value = stats.join('\n');
+    alert('Статистика скопирована в поле. Скопируй строки и посчитай среднее в Excel.');
+  }
+}
+
+// Привязка кнопки
+const btn = document.getElementById('export-btn');
+if (btn) {
+  btn.addEventListener('click', exportStats);
+}
+// --- Сохранение и восстановление сессии ---
+function saveSession(user) {
+  localStorage.setItem('kp_current_user', user);
+}
+
+function getSavedSession() {
+  return localStorage.getItem('kp_current_user');
+}
+
+function clearSession() {
+  localStorage.removeItem('kp_current_user');
+  currentUser = null;
+}
+
+// --- Обновлённая логика входа ---
+function checkLogin(login, password) {
+  if (!login) return false;
+
+  // Создаём пользователя, если его ещё нет
+  let users = JSON.parse(localStorage.getItem('kp_users') || '{}');
+  if (!users[login]) {
+    users[login] = { passwordHash: 'dummy' };
+    localStorage.setItem('kp_users', JSON.stringify(users));
+  }
+
+  currentUser = login;
+  saveSession(login); // <-- сохраняем сессию
+
+  document.querySelector('.screen-login').style.display = 'none';
+  document.querySelector('.screen-app').style.display = 'block';
+  document.getElementById('user-display').textContent = `(${login})`;
+  render();
+  return true;
+}
+
+// Кнопка «Войти»
+document.getElementById('login-btn').addEventListener('click', () => {
+  const login = document.getElementById('login-input').value.trim();
+  const password = document.getElementById('password-input').value;
+  checkLogin(login, password);
+});
+
+// Кнопка «Создать профиль»
+document.getElementById('create-btn').addEventListener('click', () => {
+  const login = document.getElementById('login-input').value.trim();
+  if (login) checkLogin(login, '');
+});
+
+// Кнопка «Выйти»
+document.getElementById('logout-btn').addEventListener('click', () => {
+  clearSession(); // <-- очищаем сессию
+  document.querySelector('.screen-login').style.display = 'block';
+  document.querySelector('.screen-app').style.display = 'none';
+  document.getElementById('user-display').textContent = '';
+  document.getElementById('login-input').value = '';
+  document.getElementById('password-input').value = '';
+});
+
+// --- Авто-вход при загрузке страницы ---
+(function init() {
+  const savedUser = getSavedSession();
+  if (savedUser) {
+    currentUser = savedUser;
+    document.querySelector('.screen-login').style.display = 'none';
+    document.querySelector('.screen-app').style.display = 'block';
+    document.getElementById('user-display').textContent = `(${savedUser})`;
+    render();
+  } else {
+    // Если нет сохранённой сессии — показываем экран входа
+    document.querySelector('.screen-login').style.display = 'block';
+    document.querySelector('.screen-app').style.display = 'none';
+  }
+})();
+</script>
+</body>
+</html>
