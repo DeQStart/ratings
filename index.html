@@ -12,12 +12,18 @@
       margin: 0;
     }
 
+    #movies-container {
+      display: grid;
+      /* На больших экранах — по 3, на средних — по 2, на мобильных — по 1 */
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
     .movie-card {
       background-color: #141a25;
       border: 1px solid #2a364d;
       padding: 18px;
-      margin-bottom: 20px;
-      max-width: 520px;
+      max-width: 520px;      /* чтобы на больших экранах карточка не растягивалась бесконечно */
       position: relative;
       border-radius: 8px;
     }
