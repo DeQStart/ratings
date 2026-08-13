@@ -281,6 +281,53 @@
         year.textContent = '(' + movie.year + ')';
         card.appendChild(year);
 
+        // --- ВСТАВЬ ЭТОТ КУСОК В ФУНКЦИЮ render, ПОСЛЕ ГОДА, ПЕРЕД ПОДСКАЗКОЙ ---
+
+// Метаданные (режиссёр, продюсер, актёры)
+if (movie.director || movie.producer || movie.actors) {
+  const metaContainer = document.createElement('div');
+
+  if (movie.director) {
+    const row = document.createElement('div');
+    row.className = 'meta-row';
+    row.innerHTML = `<span class="meta-label">Режиссёр:</span> ${movie.director}`;
+    metaContainer.appendChild(row);
+  }
+
+  if (movie.producer) {
+    const row = document.createElement('div');
+    row.className = 'meta-row';
+    row.innerHTML = `<span class="meta-label">Продюсер:</span> ${movie.producer}`;
+    metaContainer.appendChild(row);
+  }
+
+  if (movie.actors && movie.actors.length) {
+    const row = document.createElement('div');
+    row.className = 'meta-row';
+    row.innerHTML = `<span class="meta-label">В ролях:</span> ${movie.actors.join(', ')}`;
+    metaContainer.appendChild(row);
+  }
+
+  card.appendChild(metaContainer);
+}
+
+// Платформы
+if (movie.platforms && movie.platforms.length) {
+  const platformsRow = document.createElement('div');
+  platformsRow.className = 'platforms-row';
+
+  movie.platforms.forEach(platform => {
+    const tag = document.createElement('span');
+    tag.className = `platform-tag tag-${platform}`;
+    tag.textContent = platform.toUpperCase();
+    platformsRow.appendChild(tag);
+  });
+
+  card.appendChild(platformsRow);
+}
+// ---------------------------------------------------------------------------
+
+
         // Подсказка
         const info = document.createElement('div');
         info.className = 'hint';
