@@ -97,6 +97,40 @@
       color: #0b0f15;
       box-shadow: 0 0 12px rgba(0, 255, 136, 0.45);
     }
+    .meta-row {
+  color: #8a9bc2;
+  font-size: 0.88em;
+  margin-top: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.meta-label {
+  color: #6c80a0;
+  margin-right: 6px;
+}
+
+.platforms-row {
+  margin-top: 12px;
+}
+.platform-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 0.85em;
+  font-weight: 600;
+  color: #0b0f15;
+  margin-right: 8px;
+  margin-bottom: 6px;
+}
+/* Цвета платформ */
+.tag-ivi { background-color: #ff5f81; }       /* Иви — красно-розовый */
+.tag-kinopoisk { background-color: #ff9900; }
+.tag-wink { background-color: #3b8bff; }
+.tag-okko { background-color: #ff6b00; }
+.tag-start { background-color: #4caf50; }
+.tag-premier { background-color: #d32f2f; }
+.tag-kion { background-color: #9c27b0; }
   </style>
 </head>
 <body>
@@ -127,10 +161,15 @@
         feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
       },
       {
+        {
         id: 'card-lackey',
         title: 'Холоп',
         year: 2019,
         avgRating: 10.0,
+        director: 'Клим Шипенко',
+        producer: 'Yellow, Black and White',
+        actors: ['Милош Бикович', 'Александра Бортич', 'Иван Охлобыстин'],
+        platforms: ['ivi', 'okko', 'kinopoisk'],
         feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
       },
       {
