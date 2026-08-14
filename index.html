@@ -426,7 +426,13 @@ function renderMovies(list) {
       movie.platforms.forEach(platform => {
         const tag = document.createElement('span');
         tag.className = `platform-tag tag-${platform}`;
-        tag.textContent = platform.toUpperCase();
+        if (platform === 'sts') {
+  tag.textContent = 'СТС';
+  } else if (platform === 'ivi') {
+    tag.textContent = 'ИВИ';
+} else {
+  tag.textContent = platform.toUpperCase();
+        }
         platformsRow.appendChild(tag);
       });
       card.appendChild(platformsRow);
@@ -435,7 +441,7 @@ function renderMovies(list) {
     // Подсказка
     const info = document.createElement('div');
     info.className = 'hint';
-    info.textContent = 'Хочешь оценить? Напиши в группу — администратор обновит рейтинг вручную.';
+    info.textContent = 'Хочешь оценить? Нажми на кнопку ниже, она перешлёт тебя в Гугл Форму';
     card.appendChild(info);
 
     // Кнопка
