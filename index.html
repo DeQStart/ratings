@@ -455,18 +455,22 @@ if (sortSelect) {
     // Показываем фильмы, скрываем актёров
     viewToggle.dataset.mode = 'movies';
     viewToggle.textContent = 'Переключить: Актёры';
-    moviesContainer.style.display = 'block';
+
     actorsContainer.style.display = 'none';
+    moviesContainer.style.display = 'grid'; // явно ставим grid
+
+    renderMovies(movies); // заново рисуем фильмы — это заставит Grid пересчитаться
   } else {
     // Показываем актёров, скрываем фильмы
     viewToggle.dataset.mode = 'actors';
     viewToggle.textContent = 'Переключить: Фильмы';
-    moviesContainer.style.display = 'none';
-    actorsContainer.style.display = 'block';
 
-    renderActors();
+    moviesContainer.style.display = 'none';
+    actorsContainer.style.display = 'grid'; // явно ставим grid
+
+    renderActors(); // рисуем актёров
   }
-}
+    }
 
 document.getElementById('view-toggle').addEventListener('click', toggleView);
 
