@@ -11,14 +11,6 @@
       padding: 24px;
       margin: 0;
     }
-    <div style="margin-bottom: 16px;">
-  <label for="sort-select" style="color: #e0e0e0; font-weight: 600;">Сортировка по рейтингу:</label>
-  <select id="sort-select" style="padding: 6px 12px; border-radius: 4px; background: #1a1f2a; color: #fff; border: 1px solid #445566;">
-    <option value="default">По умолчанию (порядок добавления)</option>
-    <option value="rating-asc">От низкого к высокому</option>
-    <option value="rating-desc">От высокого к низкому</option>
-  </select>
-</div>
 
     #movies-container {
       display: grid;
@@ -142,6 +134,14 @@
   </style>
 </head>
 <body>
+  <div style="margin-bottom: 16px;">
+  <label for="sort-select" style="color: #e0e0e0; font-weight: 600;">Сортировка по рейтингу:</label>
+  <select id="sort-select" style="padding: 6px 12px; border-radius: 4px; background: #1a1f2a; color: #fff; border: 1px solid #445566;">
+    <option value="default">По умолчанию (порядок добавления)</option>
+    <option value="rating-asc">От низкого к высокому</option>
+    <option value="rating-desc">От высокого к низкому</option>
+  </select>
+  </div>
 
   <div id="movies-container"></div>
 
