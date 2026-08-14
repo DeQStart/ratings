@@ -128,7 +128,13 @@
 .tag-kinopoisk { background-color: #d35f00; }    /* КиноПоиск */
 .tag-wink { background-color: #ff8c00; }         /* Wink */
 .tag-okko { background-color: #4b0082; }         /* Okko */
-.tag-start { background-color: #9b111e; }        /* START */
+.tag-start {
+  background: linear-gradient(135deg, #4b0000 0%, #9b111e 100%);
+  color: #ffffff;
+  /* можно добавить лёгкое свечение, если хочется эффектнее */
+  box-shadow: 0 2px 6px rgba(155, 17, 30, 0.4);
+}
+        /* START */
 .tag-kion { background-color: #c71585; }          /* КИОН */
 .tag-premier { background-color: #b88f00; }     /* Premier */
 .tag-sts {
@@ -430,6 +436,8 @@ function renderMovies(list) {
   tag.textContent = 'СТС';
   } else if (platform === 'ivi') {
     tag.textContent = 'ИВИ';
+          } else if (platform === 'kion') {
+    tag.textContent = 'КИОН';
 } else {
   tag.textContent = platform.toUpperCase();
         }
