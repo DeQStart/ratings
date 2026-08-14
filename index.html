@@ -201,6 +201,7 @@
   display: inline-block;
   box-shadow: 0 2px 6px rgba(94, 30, 58, 0.35);
 }
+.tag-kino1tv { background-color: #2b8bcb }
 
   </style>
 </head>
@@ -291,7 +292,7 @@
     director: 'Тимур Бекмамбетов',
     producer: 'Bazelevs',
     actors: ['Константин Хабенский', 'Владимир Меньшов', 'Валерий Золотухин'],
-    platforms: ['ivi', 'premier'],
+    platforms: ['ivi', 'kino1tv', 'premier'],
     feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
   },
   {
@@ -627,6 +628,8 @@ function renderMovies(list) {
     tag.textContent = 'СМОТРИМ';
           } else if (platform === 'kinopoisk') {
     tag.textContent = 'КИНОПОИСК';
+          } else if (platform === 'kino1tv') {
+    tag.textContent = 'КИНО1ТВ';
       } else {
   tag.textContent = platform.toUpperCase();
         }
