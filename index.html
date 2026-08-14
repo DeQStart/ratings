@@ -50,6 +50,35 @@
       box-sizing: border-box;
     }
 
+/* Золотой бейдж для рейтинга выше 8.5 */
+.rating-vip {
+  background: linear-gradient(135deg, #f5e6c0 0%, #d4a530 100%);
+  color: #000000;
+  border: 2px solid #4a331e;
+  box-shadow: 0 0 12px rgba(212, 165, 48, 0.45);
+  position: relative;
+  z-index: 2;
+}
+
+/* Декоративные «злаки» по бокам */
+.rating-vip::before,
+.rating-vip::after {
+  content: "🌾";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #000000;
+  font-size: 1.1em;
+  display: block;
+}
+.rating-vip::before {
+  left: -18px;
+}
+.rating-vip::after {
+  right: -18px;
+}
+
+
     /* Зелёный: рейтинг 7 и выше */
     .rating-good {
       background: #2ecc71;
@@ -382,6 +411,7 @@ function formatDate(dateString) {
 
 function getRatingClass(rating) {
   if (rating === 0) return 'rating-neutral';
+  if (rating > 8.5) return 'rating-vip';
   if (rating < 5) return 'rating-bad';
   if (rating < 7) return 'rating-neutral'
   return 'rating-good';
