@@ -141,7 +141,7 @@
   background-color: #FFD700;   /* насыщенный жёлтый */
   color: #000000;              /* чёрный текст */
 }
-.tag-ntv {background-color: #1a881a; }
+.tag-ntv { background-color: #1a881a; }
   </style>
 </head>
 <body>
@@ -236,7 +236,7 @@
     avgRating: 0.0,
     director: 'Гузэль Киреева',
     producer: 'Ефим Любинский',
-    actors: ['Максим Аверин'],
+    actors: 'Максим Аверин',
     platforms: ['ivi', 'ntv', 'kion', 'premier'],
     feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
   },
@@ -451,7 +451,7 @@ function renderMovies(list) {
           } else if (platform === 'kion') {
     tag.textContent = 'КИОН';
           } else if (platform === 'ntv') {
-    tag.textContent = ''НТВ';
+    tag.textContent = 'НТВ';
       } else {
   tag.textContent = platform.toUpperCase();
         }
