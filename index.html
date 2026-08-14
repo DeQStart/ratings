@@ -142,8 +142,21 @@
     <option value="rating-desc">От высокого к низкому</option>
   </select>
   </div>
+  <div style="margin-bottom: 16px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+  <label for="sort-select" style="color: #e0e0e0; font-weight: 600;">Сортировка:</label>
+  <select id="sort-select" style="padding: 6px 12px; border-radius: 4px; background: #1a1f2a; color: #fff; border: 1px solid #445566;">
+    <option value="default">По умолчанию</option>
+    <option value="rating-asc">От низкого к высокому</option>
+    <option value="rating-desc">От высокого к низкому</option>
+  </select>
+
+  <button id="view-toggle" class="rate-btn" style="padding: 6px 14px; font-size: 0.9em;">
+    Переключить: Фильмы
+  </button>
+  </div>
 
   <div id="movies-container"></div>
+  <div id="actors-container" style="display: none;"></div> function renderActors() {
 
   <script>
           const movies = [
@@ -287,6 +300,36 @@
     feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
   }
 ];
+    const actorsList = [
+  {
+    id: 'actor-1',
+    name: 'Милош Бикович',
+    birth: '1988-01-13',
+    death: null,
+    height: 186
+  },
+  {
+    id: 'actor-2',
+    name: 'Александра Бортич',
+    birth: '1995-09-24',
+    death: null,
+    height: 168
+  },
+  {
+    id: 'actor-3',
+    name: 'Аглая Тарасова',
+    birth: '1994-04-18',
+    death: null,
+    height: 170
+  },
+  {
+    id: 'actor-4',
+    name: 'Фёдор Бондарчук',
+    birth: '1967-05-09',
+    death: null,
+    height: 182
+  }
+];
 
 function getRatingClass(rating) {
   if (rating === 0) return 'rating-neutral';
@@ -403,9 +446,76 @@ if (sortSelect) {
     renderMovies(sorted);
   });
 }
+    function toggleView() {
+  const viewToggle = document.getElementById('view-toggle');
+  const moviesContainer = document.getElementById('movies-container');
+  const actorsContainer = document.getElementById('actors-container');
+
+  if (viewToggle.dataset.mode === 'actors') {
+    // Показываем фильмы, скрываем актёров
+    viewToggle.dataset.mode = 'movies';
+    viewToggle.textContent = 'Переключить: Актёры';
+    moviesContainer.style.display = 'block';
+    actorsContainer.style.display = 'none';
+  } else {
+    // Показываем актёров, скрываем фильмы
+    viewToggle.dataset.mode = 'actors';
+    viewToggle.textContent = 'Переключить: Фильмы';
+    moviesContainer.style.display = 'none';
+    actorsContainer.style.display = 'block';
+
+    renderActors();
+  }
+}
+
+document.getElementById('view-toggle').addEventListener('click', toggleView);
+
 
 // Первоначальная отрисовка
 renderMovies(movies);
+    function renderActors() {
+  const container = document.getElementById('actors-container');
+  if (!container) return;
+  container.innerHTML = '';
+
+  actorsList.forEach(actor => {
+    const card = document.createElement('div');
+    card.className = 'movie-card'; // используем тот же стиль карточки
+    card.style.maxWidth = '400px';
+
+    const name = document.createElement('h3');
+    name.className = 'movie-title';
+    name.textContent = actor.name;
+    card.appendChild(name);
+
+    const details = document.createElement('div');
+    details.style.color = '#8a9bc2';
+    details.style.fontSize = '0.9em';
+    details.style.lineHeight = '1.5';
+
+    // Дата рождения
+    if (actor.birth) {
+      const d = new Date(actor.birth);
+      details.textContent += `Родился: ${d.getDate().toString().padStart(2,'0')}.${(d.getMonth()+1).toString().padStart(2,'0')}.${d.getFullYear()}`;
+    }
+
+    // Дата смерти
+    if (actor.death) {
+      const d = new Date(actor.death);
+      details.textContent += '\nУмер: ' + `${d.getDate().toString().padStart(2,'0')}.${(d.getMonth()+1).toString().padStart(2,'0')}.${d.getFullYear()}`;
+    } else if (actor.birth) {
+      details.textContent += '\n';
+    }
+
+    // Рост
+    if (actor.height) {
+      details.textContent += `Рост: ${actor.height} см`;
+    }
+
+    card.appendChild(details);
+    container.appendChild(card);
+  });
+      }
   </script>
 </body>
 </html>
