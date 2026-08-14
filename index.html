@@ -280,6 +280,7 @@
 function getRatingClass(rating) {
   if (rating < 5) return 'rating-bad';
   if (rating < 7) return 'rating-neutral';
+  if (rating = 0) return 'rating-neutral';
   return 'rating-good';
 }
 
