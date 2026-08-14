@@ -210,6 +210,7 @@
     title: 'Холоп',
     year: 2019,
     avgRating: 7.0,
+    isVip: true
     director: 'Клим Шипенко',
     producer: 'Yellow, Black and White',
     actors: ['Милош Бикович', 'Александра Бортич', 'Иван Охлобыстин'],
@@ -410,6 +411,7 @@ function formatDate(dateString) {
 }
 
 function getRatingClass(rating) {
+  if (movie.isVip) return 'rating-vip';
   if (rating === 0) return 'rating-neutral';
   if (rating > 8.5) return 'rating-vip';
   if (rating < 5) return 'rating-bad';
@@ -435,7 +437,7 @@ function renderMovies(list) {
 
     // Рейтинг с цветом
     const ratingBadge = document.createElement('div');
-    ratingBadge.className = `rating-badge ${getRatingClass(movie.avgRating)}`;
+    ratingBadge.className = `rating-badge ${getRatingClass(movie)}`;
     ratingBadge.textContent = movie.avgRating.toFixed(1);
     card.appendChild(ratingBadge);
 
