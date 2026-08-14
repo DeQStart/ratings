@@ -146,10 +146,12 @@
   color: #8a9bc2;
   font-size: 0.88em;
   margin-top: 6px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+  white-space: normal;           /* разрешает перенос */
+  overflow: visible;             /* убирает обрезку */
+  text-overflow: clip;           /* ellipsis тут не нужен */
+  word-wrap: break-word;         /* перенос длинных слов */
+  max-width: 100%;                /* чтобы не вылезало за карточку */
+    }
 .meta-label {
   color: #6c80a0;
   margin-right: 6px;
