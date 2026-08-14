@@ -410,16 +410,19 @@ function formatDate(dateString) {
   return `${d.getDate().toString().padStart(2,'0')}.${(d.getMonth()+1).toString().padStart(2,'0')}.${d.getFullYear()}`;
 }
 
-function getRatingClass(rating) {
+function getRatingClass(movie) {
+  // Сначала проверяем VIP-статус
   if (movie.isVip) {
     return 'rating-vip';
   }
 
   const r = movie.avgRating ?? 0;
-  if (rating === 0) return 'rating-neutral';
-  if (rating > 8.5) return 'rating-vip';
-  if (rating < 5) return 'rating-bad';
-  if (rating < 7) return 'rating-neutral'
+
+  if (r === 0) return 'rating-neutral';
+  if (r > 8.5) return 'rating-vip';
+  if (r < 5) return 'rating-bad';
+  if (r < 7) return 'rating-neutral';
+
   return 'rating-good';
 }
 
