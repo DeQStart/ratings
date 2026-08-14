@@ -141,6 +141,7 @@
   background-color: #FFD700;   /* насыщенный жёлтый */
   color: #000000;              /* чёрный текст */
 }
+.tag-ntv {background-color: #1a881a; }
   </style>
 </head>
 <body>
@@ -226,6 +227,17 @@
     producer: 'Фёдор Бондарчук',
     actors: ['Денис Никифоров', 'Михаил Жигалов', 'Фёдор Бондарчук'],
     platforms: ['ivi', 'wink', 'sts'],
+    feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
+  },
+    {
+    id: 'card-capercaillie',
+    title: 'Глухарь',
+    year: 2008,
+    avgRating: 0.0,
+    director: 'Гузэль Киреева',
+    producer: 'Ефим Любинский',
+    actors: ['Максим Аверин'],
+    platforms: ['ivi', 'ntv', 'kion', 'premier'],
     feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
   },
   {
@@ -438,7 +450,9 @@ function renderMovies(list) {
     tag.textContent = 'ИВИ';
           } else if (platform === 'kion') {
     tag.textContent = 'КИОН';
-} else {
+          } else if (platform === 'ntv') {
+    tag.textContent = ''НТВ';
+      } else {
   tag.textContent = platform.toUpperCase();
         }
         platformsRow.appendChild(tag);
