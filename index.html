@@ -26,104 +26,14 @@
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
     }
-    const sortSelect = document.getElementById('sort-select');
-const moviesContainer = document.getElementById('movies-container');
-
-// Функция сортировки
-function sortMovies(arr, type) {
-  const copy = [...arr]; // делаем копию, чтобы не мутировать оригинал
-
-  if (type === 'rating-asc') {
-    return copy.sort((a, b) => {
-      const ra = a.rating ?? 0;
-      const rb = b.rating ?? 0;
-      return ra - rb;
-    });
-  } else if (type === 'rating-desc') {
-    return copy.sort((a, b) => {
-      const ra = a.rating ?? 0;
-      const rb = b.rating ?? 0;
-      return rb - ra;
-    });
-  }
-  return copy; // default: без сортировки
-}
-
-// Перерисовка
-function renderMovies(list) {
-  moviesContainer.innerHTML = ''; // очищаем контейнер
-
-  list.forEach(movie => {
-    const card = document.createElement('div');
-    card.className = 'movie-card';
-    card.style = `
-      background: #1a1f2a;
-      border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 12px;
-      display: flex;
-      gap: 16px;
-    `;
-
-    // Постер (слева)
-    const poster = document.createElement('img');
-    poster.src = movie.poster || 'https://via.placeholder.com/150x225';
-    poster.style = `width: 150px; height: 225px; object-fit: cover; border-radius: 4px;`;
-
-    // Инфо (справа)
-    const info = document.createElement('div');
-    info.style = 'flex: 1; min-width: 0;';
-
-    const title = document.createElement('h3');
-    title.textContent = movie.title;
-    title.style = 'margin: 0 0 8px 0; color: #fff;';
-
-    const meta = document.createElement('p');
-    meta.textContent = `Режиссёр: ${movie.director || 'Неизвестно'} | Год: ${movie.year || '—'} | Рейтинг: ${movie.rating ?? '—'}`;
-    meta.style = 'margin: 0 0 8px 0; color: #aaa; font-size: 14px;';
-
-    const cast = document.createElement('p');
-    cast.textContent = `Актёры: ${(movie.cast || []).join(', ') || 'Не указаны'}`;
-    cast.style = 'margin: 0 0 8px 0; color: #ccc; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 500px;';
-
-    const platforms = document.createElement('div');
-    platforms.style = 'display: flex; gap: 6px; flex-wrap: wrap;';
-    (movie.platforms || []).forEach(p => {
-      const tag = document.createElement('span');
-      tag.textContent = p;
-      tag.style = `padding: 4px 8px; border-radius: 4px; font-size: 12px; color: white; font-weight: 500;`;
-      // Цвета платформ (подставь свои HEX)
-      if (p === 'Иви') tag.style.backgroundColor = '#FF5F5F';
-      else if (p === 'Okko') tag.style.backgroundColor = '#00A6ED';
-      else if (p === 'КиноПоиск') tag.style.backgroundColor = '#292F3A';
-      else if (p === 'Wink') tag.style.backgroundColor = '#FFA500';
-      else if (p === 'START') tag.style.backgroundColor = '#8B008B';
-      else if (p === 'КИОН') tag.style.backgroundColor = '#1E90FF';
-      else if (p === 'Premier') tag.style.backgroundColor = '#DC143C';
-      platforms.appendChild(tag);
-    });
-
-    info.appendChild(title);
-    info.appendChild(meta);
-    info.appendChild(cast);
-    info.appendChild(platforms);
-
-    card.appendChild(poster);
-    card.appendChild(info);
-    moviesContainer.appendChild(card);
-  });
-}
-
-// Обработчик сортировки
-sortSelect.addEventListener('change', (e) => {
-  const sortType = e.target.value;
-  const sorted = sortMovies(movies, sortType);
-  renderMovies(sorted);
-});
-
-// Первоначальная отрисовка (если ещё нет)
-renderMovies(movies);
-
+    <div style="margin-bottom: 16px;">
+  <label for="sort-select" style="color: #e0e0e0; font-weight: 600;">Сортировка по рейтингу:</label>
+  <select id="sort-select" style="padding: 6px 12px; border-radius: 4px; background: #1a1f2a; color: #fff; border: 1px solid #445566;">
+    <option value="default">По умолчанию (порядок добавления)</option>
+    <option value="rating-asc">От низкого к высокому</option>
+    <option value="rating-desc">От высокого к низкому</option>
+  </select>
+</div>
 
     .movie-card {
       background-color: #141a25;
