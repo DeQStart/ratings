@@ -12,7 +12,7 @@
       margin: 0;
     }
 
-    #movies-container {
+    #movies-container, #actors-container {
       display: grid;
       /* На больших экранах — по 3, на средних — по 2, на мобильных — по 1 */
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -141,20 +141,13 @@
     <option value="rating-asc">От низкого к высокому</option>
     <option value="rating-desc">От высокого к низкому</option>
   </select>
-  </div>
-  <div style="margin-bottom: 16px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-  <label for="sort-select" style="color: #e0e0e0; font-weight: 600;">Сортировка:</label>
-  <select id="sort-select" style="padding: 6px 12px; border-radius: 4px; background: #1a1f2a; color: #fff; border: 1px solid #445566;">
-    <option value="default">По умолчанию</option>
-    <option value="rating-asc">От низкого к высокому</option>
-    <option value="rating-desc">От высокого к низкому</option>
-  </select>
 
-  <button id="view-toggle" class="rate-btn" style="padding: 6px 14px; font-size: 0.9em;">
-    Переключить: Фильмы
+    <button id="view-toggle" class="rate-btn" style="padding: 6px 14px; font-size: 0.9em;">
+    Переключить: Актёры
   </button>
   </div>
-
+  </div>
+  
   <div id="movies-container"></div>
   <div id="actors-container" style="display: none;"></div> function renderActors() {
 
@@ -330,6 +323,13 @@
     height: 182
   }
 ];
+    
+function formatDate(dateString) {
+  if (!dateString) return '';
+  const d = new Date(dateString);
+  if (isNaN(d.getTime())) return '';
+  return `${d.getDate().toString().padStart(2,'0')}.${(d.getMonth()+1).toString().padStart(2,'0')}.${d.getFullYear()}`;
+}
 
 function getRatingClass(rating) {
   if (rating === 0) return 'rating-neutral';
@@ -470,6 +470,7 @@ if (sortSelect) {
 
 document.getElementById('view-toggle').addEventListener('click', toggleView);
 
+document.getElementById('view-toggle').dataset.mode = 'movies';
 
 // Первоначальная отрисовка
 renderMovies(movies);
@@ -496,15 +497,12 @@ renderMovies(movies);
     // Дата рождения
     if (actor.birth) {
       const d = new Date(actor.birth);
-      details.textContent += `Родился: ${d.getDate().toString().padStart(2,'0')}.${(d.getMonth()+1).toString().padStart(2,'0')}.${d.getFullYear()}`;
+      details.textContent += `Родился: ${formatDate(actor.birth)}`;
     }
 
     // Дата смерти
     if (actor.death) {
-      const d = new Date(actor.death);
-      details.textContent += '\nУмер: ' + `${d.getDate().toString().padStart(2,'0')}.${(d.getMonth()+1).toString().padStart(2,'0')}.${d.getFullYear()}`;
-    } else if (actor.birth) {
-      details.textContent += '\n';
+  details.textContent += '\nУмер: ' + formatDate(actor.death);
     }
 
     // Рост
@@ -515,7 +513,7 @@ renderMovies(movies);
     card.appendChild(details);
     container.appendChild(card);
   });
-      }
+    }
   </script>
 </body>
 </html>
