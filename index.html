@@ -126,6 +126,22 @@
       color: #0b0f15;
       box-shadow: 0 0 12px rgba(0, 255, 136, 0.45);
     }
+    #search-box {
+  width: 100%;
+  max-width: 500px;
+  padding: 10px 14px;
+  background: #1a1f2a;
+  border: 1px solid #2a364d;
+  color: #e0e0e0;
+  font-family: sans-serif;
+  font-size: 1em;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+#search-box::placeholder {
+  color: #6c80a0;
+}
     .meta-row {
   color: #8a9bc2;
   font-size: 0.88em;
@@ -199,6 +215,8 @@
     Переключить: Актёры
   </button>
   </div>
+
+  <input type="text" id="search-box" placeholder="Поиск по названию фильма или актёра…">
   
   <div id="movies-container"></div>
   <div id="actors-container" style="display: none;"></div>
@@ -424,6 +442,68 @@ function getRatingClass(movie) {
   if (r < 7) return 'rating-neutral';
 
   return 'rating-good';
+}
+    function filterMovies(list, query) {
+  if (!query) return list;
+  const q = query.toLowerCase().trim();
+  return list.filter(item =>
+    item.title.toLowerCase().includes(q)
+  );
+}
+
+function filterActors(list, query) {
+  if (!query) return list;
+  const q = query.toLowerCase().trim();
+  return list.filter(actor =>
+    actor.name.toLowerCase().includes(q)
+  );
+}
+
+const searchInput = document.getElementById('search-box');
+if (searchInput) {
+  searchInput.addEventListener('input', (e) => {
+    const query = e.target.value;
+
+    // Если сейчас показываем фильмы
+    if (document.getElementById('view-toggle').dataset.mode === 'movies') {
+      const filtered = filterMovies(movies, query);
+      renderMovies(filtered);
+    }
+    // Если сейчас показываем актёров
+    else {
+      const filtered = filterActors(actorsList, query);
+      // Переиспользуем renderActors — он берёт массив из аргумента
+      container = document.getElementById('actors-container');
+      if (container) {
+        container.innerHTML = '';
+        filtered.forEach(actor => {
+          const card = document.createElement('div');
+          card.className = 'movie-card';
+          card.style.maxWidth = '400px';
+
+          const name = document.createElement('h3');
+          name.className = 'movie-title';
+          name.textContent = actor.name;
+          card.appendChild(name);
+
+          const details = document.createElement('div');
+          details.style.color = '#8a9bc2';
+          details.style.fontSize = '0.9em';
+          details.style.lineHeight = '1.5';
+          details.style.whiteSpace = 'pre-line';
+
+          let text = '';
+          if (actor.birth) text += `Родился: ${formatDate(actor.birth)}\n`;
+          if (actor.death) text += `Умер: ${formatDate(actor.death)}\n`;
+          if (actor.height) text += `Рост: ${actor.height} см`;
+
+          details.textContent = text;
+          card.appendChild(details);
+          container.appendChild(card);
+        });
+      }
+    }
+  });
 }
 
 function renderMovies(list) {
