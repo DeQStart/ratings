@@ -11,6 +11,14 @@
       padding: 24px;
       margin: 0;
     }
+    <div style="margin-bottom: 16px;">
+  <label for="sort-select" style="color: #e0e0e0; font-weight: 600;">Сортировка по рейтингу:</label>
+  <select id="sort-select" style="padding: 6px 12px; border-radius: 4px; background: #1a1f2a; color: #fff; border: 1px solid #445566;">
+    <option value="default">По умолчанию (порядок добавления)</option>
+    <option value="rating-asc">От низкого к высокому</option>
+    <option value="rating-desc">От высокого к низкому</option>
+  </select>
+</div>
 
     #movies-container {
       display: grid;
@@ -236,326 +244,237 @@ renderMovies(movies);
   <div id="movies-container"></div>
 
   <script>
-    const movies = [
-      {
-        id: 'card-murzazel',
-        title: 'Мурзазель',
-        year: 2026,
-        avgRating: 9.0,
-        feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
-      },
-      {
-        id: 'card-kukhnya-2',
-        title: 'Кухня 2',
-        year: 2026,
-        avgRating: 8.0,
-        feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
-      },
-      {
-        id: 'card-abduction-bonya-kiselyochek',
-        title: 'Похищение Бони и Киселёчка',
-        year: 2023,
-        avgRating: 9.0,
-        feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
-      },
-      {
-        id: 'card-lackey',
-        title: 'Холоп',
-        year: 2019,
-        avgRating: 10.0,
-        director: 'Клим Шипенко',
-        producer: 'Yellow, Black and White',
-        actors: ['Милош Бикович', 'Александра Бортич', 'Иван Охлобыстин'],
-        platforms: ['ivi', 'okko', 'kinopoisk'],
-        feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
-      },
-      {
-        id: 'card-firs',
-        title: 'Ёлки',
-        year: 2010,
-        avgRating: 7.0,
-        platforms: ['ivi', 'wink', 'okko'],
-        feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
-      },
-      {
-        id: 'card-firs-2',
-        title: 'Ёлки 2',
-        year: 2011,
-        avgRating: 8.0,
-        platforms: ['ivi', 'wink', 'okko'],
-        feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
-      },
-      {
-     id: 'card-firs-3',
-        title: 'Ёлки 3',
-        year: 2013,
-        avgRating: 7.0,
-        platforms: ['ivi', 'wink', 'okko'],
-        feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
-      },
-      {
-     id: 'card-firs-1914',
-        title: 'Ёлки 1914',
-        year: 2014,
-        avgRating: 6.0,
-        platforms: ['ivi', 'wink', 'okko'],
-        feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
-      },
-      {
-     id: 'card-firs-5',
-        title: 'Ёлки 5',
-        year: 2016,
-        avgRating: 6.0,
-        platforms: ['ivi', 'wink', 'okko'],
-        feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
-      },
-      {
-     id: 'card-new-firs',
-        title: 'Ёлки новые',
-        year: 2017,
-        avgRating: 7.0,
-        platforms: ['ivi', 'wink', 'okko'],
-        feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
-      },
-      {
-     id: 'card-the-last-firs',
-        title: 'Ёлки Последние',
-        year: 2018,
-        avgRating: 7.0,
-        platforms: ['ivi', 'wink', 'okko'],
-        feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
-      },
-      {
-     id: 'card-firs-8',
-        title: 'Ёлки 8',
-        year: 2021,
-        avgRating: 3.0,
-        platforms: ['ivi', 'wink', 'okko'],
-        feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
-      },
-      {
-     id: 'card-firs-9',
-        title: 'Ёлки 9',
-        year: 2022,
-        avgRating: 5.0,
-        platforms: ['ivi', 'wink', 'okko'],
-        feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
-      },
-      {
-     id: 'card-firs-10',
-        title: 'Ёлки 10',
-        year: 2023,
-        avgRating: 4.0,
-        platforms: ['ivi', 'wink', 'okko'],
-        feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
-      },
-      // Сюда можно добавлять ещё фильмы
-    ];
-
-    function getRatingClass(rating) {
-      if (rating < 5) {
-        return 'rating-bad';
-      } else if (rating < 7) {
-        return 'rating-neutral';
-      } else {
-        return 'rating-good';
-      }
-    }
-
-    function render() {
-      const container = document.getElementById('movies-container');
-      if (!container) return;
-
-      movies.forEach(movie => {
-        const card = document.createElement('div');
-        card.id = movie.id;
-        card.className = 'movie-card';
-
-        // Заголовок
-        const title = document.createElement('h3');
-        title.className = 'movie-title';
-        title.textContent = movie.title;
-        card.appendChild(title);
-
-        // Рейтинг с динамическим цветом
-        const ratingBadge = document.createElement('div');
-        ratingBadge.className = `rating-badge ${getRatingClass(movie.avgRating)}`;
-        ratingBadge.textContent = movie.avgRating.toFixed(1);
-        card.appendChild(ratingBadge);
-
-        // Год
-        const year = document.createElement('div');
-        year.className = 'movie-year';
-        year.textContent = '(' + movie.year + ')';
-        card.appendChild(year);
-
-        // --- ВСТАВЬ ЭТОТ КУСОК В ФУНКЦИЮ render, ПОСЛЕ ГОДА, ПЕРЕД ПОДСКАЗКОЙ ---
-
-// Метаданные (режиссёр, продюсер, актёры)
-if (movie.director || movie.producer || movie.actors) {
-  const metaContainer = document.createElement('div');
-
-  if (movie.director) {
-    const row = document.createElement('div');
-    row.className = 'meta-row';
-    row.innerHTML = `<span class="meta-label">Режиссёр:</span> ${movie.director}`;
-    metaContainer.appendChild(row);
+          const movies = [
+  {
+    id: 'card-murzazel',
+    title: 'Мурзазель',
+    year: 2026,
+    avgRating: 9.0,
+    feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
+  },
+  {
+    id: 'card-kukhnya-2',
+    title: 'Кухня 2',
+    year: 2026,
+    avgRating: 8.0,
+    feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
+  },
+  {
+    id: 'card-abduction-bonya-kiselyochek',
+    title: 'Похищение Бони и Киселёчка',
+    year: 2023,
+    avgRating: 9.0,
+    feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
+  },
+  {
+    id: 'card-lackey',
+    title: 'Холоп',
+    year: 2019,
+    avgRating: 10.0,
+    director: 'Клим Шипенко',
+    producer: 'Yellow, Black and White',
+    actors: ['Милош Бикович', 'Александра Бортич', 'Иван Охлобыстин'],
+    platforms: ['ivi', 'okko', 'kinopoisk'],
+    feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
+  },
+  {
+    id: 'card-firs',
+    title: 'Ёлки',
+    year: 2010,
+    avgRating: 7.0,
+    platforms: ['ivi', 'wink', 'okko'],
+    feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
+  },
+  {
+    id: 'card-firs-2',
+    title: 'Ёлки 2',
+    year: 2011,
+    avgRating: 8.0,
+    platforms: ['ivi', 'wink', 'okko'],
+    feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
+  },
+  {
+    id: 'card-firs-3',
+    title: 'Ёлки 3',
+    year: 2013,
+    avgRating: 7.0,
+    platforms: ['ivi', 'wink', 'okko'],
+    feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
+  },
+  {
+    id: 'card-firs-1914',
+    title: 'Ёлки 1914',
+    year: 2014,
+    avgRating: 6.0,
+    platforms: ['ivi', 'wink', 'okko'],
+    feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
+  },
+  {
+    id: 'card-firs-5',
+    title: 'Ёлки 5',
+    year: 2016,
+    avgRating: 6.0,
+    platforms: ['ivi', 'wink', 'okko'],
+    feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
+  },
+  {
+    id: 'card-new-firs',
+    title: 'Ёлки новые',
+    year: 2017,
+    avgRating: 7.0,
+    platforms: ['ivi', 'wink', 'okko'],
+    feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
+  },
+  {
+    id: 'card-the-last-firs',
+    title: 'Ёлки Последние',
+    year: 2018,
+    avgRating: 7.0,
+    platforms: ['ivi', 'wink', 'okko'],
+    feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
+  },
+  {
+    id: 'card-firs-8',
+    title: 'Ёлки 8',
+    year: 2021,
+    avgRating: 3.0,
+    platforms: ['ivi', 'wink', 'okko'],
+    feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
+  },
+  {
+    id: 'card-firs-9',
+    title: 'Ёлки 9',
+    year: 2022,
+    avgRating: 5.0,
+    platforms: ['ivi', 'wink', 'okko'],
+    feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
+  },
+  {
+    id: 'card-firs-10',
+    title: 'Ёлки 10',
+    year: 2023,
+    avgRating: 4.0,
+    platforms: ['ivi', 'wink', 'okko'],
+    feedbackUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeEJlJtWK-VO7J24B_wNIXdMRDBO3jrgTScBNtbwmsc2wiGYg/viewform?usp=publish-editor'
   }
+];
 
-  if (movie.producer) {
-    const row = document.createElement('div');
-    row.className = 'meta-row';
-    row.innerHTML = `<span class="meta-label">Продюсер:</span> ${movie.producer}`;
-    metaContainer.appendChild(row);
-  }
-
-  if (movie.actors && movie.actors.length) {
-    const row = document.createElement('div');
-    row.className = 'meta-row';
-    row.innerHTML = `<span class="meta-label">В ролях:</span> ${movie.actors.join(', ')}`;
-    metaContainer.appendChild(row);
-  }
-
-  card.appendChild(metaContainer);
+function getRatingClass(rating) {
+  if (rating < 5) return 'rating-bad';
+  if (rating < 7) return 'rating-neutral';
+  return 'rating-good';
 }
 
-// Платформы
-if (movie.platforms && movie.platforms.length) {
-  const platformsRow = document.createElement('div');
-  platformsRow.className = 'platforms-row';
-
-  movie.platforms.forEach(platform => {
-    const tag = document.createElement('span');
-    tag.className = `platform-tag tag-${platform}`;
-    tag.textContent = platform.toUpperCase();
-    platformsRow.appendChild(tag);
-  });
-
-  card.appendChild(platformsRow);
-}
-// ---------------------------------------------------------------------------
-
-
-        // Подсказка
-        const info = document.createElement('div');
-        info.className = 'hint';
-        info.textContent = 'Хочешь оценить? Напиши в группу — администратор обновит рейтинг вручную.';
-        card.appendChild(info);
-
-        // Кнопка
-        const btn = document.createElement('button');
-        btn.className = 'rate-btn';
-        btn.textContent = 'Поставить оценку';
-        btn.onclick = () => {
-          if (!movie.feedbackUrl || movie.feedbackUrl.includes('твоя_')) {
-            alert('Ссылка на группу ещё не настроена!');
-            return;
-          }
-          window.open(movie.feedbackUrl, '_blank');
-        };
-        card.appendChild(btn);
-
-        container.appendChild(card);
-      });
-    }
-
-    render();
-    const sortSelect = document.getElementById('sort-select');
-const moviesContainer = document.getElementById('movies-container');
-
-// Функция сортировки
-function sortMovies(arr, type) {
-  const copy = [...arr]; // делаем копию, чтобы не мутировать оригинал
-
-  if (type === 'rating-asc') {
-    return copy.sort((a, b) => {
-      const ra = a.rating ?? 0;
-      const rb = b.rating ?? 0;
-      return ra - rb;
-    });
-  } else if (type === 'rating-desc') {
-    return copy.sort((a, b) => {
-      const ra = a.rating ?? 0;
-      const rb = b.rating ?? 0;
-      return rb - ra;
-    });
-  }
-  return copy; // default: без сортировки
-}
-
-// Перерисовка
 function renderMovies(list) {
-  moviesContainer.innerHTML = ''; // очищаем контейнер
+  const container = document.getElementById('movies-container');
+  if (!container) return;
+  container.innerHTML = ''; // очищаем перед отрисовкой
 
   list.forEach(movie => {
     const card = document.createElement('div');
+    card.id = movie.id;
     card.className = 'movie-card';
-    card.style = `
-      background: #1a1f2a;
-      border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 12px;
-      display: flex;
-      gap: 16px;
-    `;
 
-    // Постер (слева)
-    const poster = document.createElement('img');
-    poster.src = movie.poster || 'https://via.placeholder.com/150x225';
-    poster.style = `width: 150px; height: 225px; object-fit: cover; border-radius: 4px;`;
-
-    // Инфо (справа)
-    const info = document.createElement('div');
-    info.style = 'flex: 1; min-width: 0;';
-
+    // Заголовок
     const title = document.createElement('h3');
+    title.className = 'movie-title';
     title.textContent = movie.title;
-    title.style = 'margin: 0 0 8px 0; color: #fff;';
+    card.appendChild(title);
 
-    const meta = document.createElement('p');
-    meta.textContent = `Режиссёр: ${movie.director || 'Неизвестно'} | Год: ${movie.year || '—'} | Рейтинг: ${movie.rating ?? '—'}`;
-    meta.style = 'margin: 0 0 8px 0; color: #aaa; font-size: 14px;';
+    // Рейтинг с цветом
+    const ratingBadge = document.createElement('div');
+    ratingBadge.className = `rating-badge ${getRatingClass(movie.avgRating)}`;
+    ratingBadge.textContent = movie.avgRating.toFixed(1);
+    card.appendChild(ratingBadge);
 
-    const cast = document.createElement('p');
-    cast.textContent = `Актёры: ${(movie.cast || []).join(', ') || 'Не указаны'}`;
-    cast.style = 'margin: 0 0 8px 0; color: #ccc; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 500px;';
+    // Год
+    const year = document.createElement('div');
+    year.className = 'movie-year';
+    year.textContent = '(' + movie.year + ')';
+    card.appendChild(year);
 
-    const platforms = document.createElement('div');
-    platforms.style = 'display: flex; gap: 6px; flex-wrap: wrap;';
-    (movie.platforms || []).forEach(p => {
-      const tag = document.createElement('span');
-      tag.textContent = p;
-      tag.style = `padding: 4px 8px; border-radius: 4px; font-size: 12px; color: white; font-weight: 500;`;
-      // Цвета платформ (подставь свои HEX)
-      if (p === 'Иви') tag.style.backgroundColor = '#FF5F5F';
-      else if (p === 'Okko') tag.style.backgroundColor = '#00A6ED';
-      else if (p === 'КиноПоиск') tag.style.backgroundColor = '#292F3A';
-      else if (p === 'Wink') tag.style.backgroundColor = '#FFA500';
-      else if (p === 'START') tag.style.backgroundColor = '#8B008B';
-      else if (p === 'КИОН') tag.style.backgroundColor = '#1E90FF';
-      else if (p === 'Premier') tag.style.backgroundColor = '#DC143C';
-      platforms.appendChild(tag);
-    });
+    // Метаданные (режиссёр, продюсер, актёры)
+    if (movie.director || movie.producer || (movie.actors && movie.actors.length)) {
+      const metaContainer = document.createElement('div');
+      if (movie.director) {
+        const row = document.createElement('div');
+        row.className = 'meta-row';
+        row.innerHTML = `<span class="meta-label">Режиссёр:</span> ${movie.director}`;
+        metaContainer.appendChild(row);
+      }
+      if (movie.producer) {
+        const row = document.createElement('div');
+        row.className = 'meta-row';
+        row.innerHTML = `<span class="meta-label">Продюсер:</span> ${movie.producer}`;
+        metaContainer.appendChild(row);
+      }
+      if (movie.actors && movie.actors.length) {
+        const row = document.createElement('div');
+        row.className = 'meta-row';
+        row.innerHTML = `<span class="meta-label">В ролях:</span> ${movie.actors.join(', ')}`;
+        metaContainer.appendChild(row);
+      }
+      card.appendChild(metaContainer);
+    }
 
-    info.appendChild(title);
-    info.appendChild(meta);
-    info.appendChild(cast);
-    info.appendChild(platforms);
+    // Платформы
+    if (movie.platforms && movie.platforms.length) {
+      const platformsRow = document.createElement('div');
+      platformsRow.className = 'platforms-row';
+      movie.platforms.forEach(platform => {
+        const tag = document.createElement('span');
+        tag.className = `platform-tag tag-${platform}`;
+        tag.textContent = platform.toUpperCase();
+        platformsRow.appendChild(tag);
+      });
+      card.appendChild(platformsRow);
+    }
 
-    card.appendChild(poster);
+    // Подсказка
+    const info = document.createElement('div');
+    info.className = 'hint';
+    info.textContent = 'Хочешь оценить? Напиши в группу — администратор обновит рейтинг вручную.';
     card.appendChild(info);
-    moviesContainer.appendChild(card);
+
+    // Кнопка
+    const btn = document.createElement('button');
+    btn.className = 'rate-btn';
+    btn.textContent = 'Поставить оценку';
+    btn.onclick = () => {
+      if (!movie.feedbackUrl || movie.feedbackUrl.includes('твоя_')) {
+        alert('Ссылка на группу ещё не настроена!');
+        return;
+      }
+      window.open(movie.feedbackUrl, '_blank');
+    };
+    card.appendChild(btn);
+
+    container.appendChild(card);
   });
 }
 
-// Обработчик сортировки
-sortSelect.addEventListener('change', (e) => {
-  const sortType = e.target.value;
-  const sorted = sortMovies(movies, sortType);
-  renderMovies(sorted);
-});
+// Функция сортировки
+function sortMovies(arr, type) {
+  const copy = [...arr];
+  if (type === 'rating-asc') {
+    return copy.sort((a, b) => (a.avgRating ?? 0) - (b.avgRating ?? 0));
+  } else if (type === 'rating-desc') {
+    return copy.sort((a, b) => (b.avgRating ?? 0) - (a.avgRating ?? 0));
+  }
+  return copy; // без сортировки
+}
 
-// Первоначальная отрисовка (если ещё нет)
+// Обработчик сортировки
+const sortSelect = document.getElementById('sort-select');
+if (sortSelect) {
+  sortSelect.addEventListener('change', (e) => {
+    const sortType = e.target.value;
+    const sorted = sortMovies(movies, sortType);
+    renderMovies(sorted);
+  });
+}
+
+// Первоначальная отрисовка
 renderMovies(movies);
   </script>
 </body>
