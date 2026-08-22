@@ -787,22 +787,25 @@ renderMovies(movies);
 
     // Дата рождения
     if (actor.birth) {
-      const d = new Date(actor.birth);
-      details.textContent += `Родился: ${formatDate(actor.birth)}`;
-    }
+  const line = document.createElement('div');
+  line.textContent = `Родился: ${formatDate(actor.birth)}`;
+  details.appendChild(line);
+}
 
-    // Дата смерти
-    if (actor.death) {
-  details.textContent += '<br>Умер</br>: ' + formatDate(actor.death);
-    }
+if (actor.death) {
+  const line = document.createElement('div');
+  line.textContent = `Умер: ${formatDate(actor.death)}`;
+  details.appendChild(line);
+}
 
-    // Рост
-    if (actor.height) {
-      details.textContent += `Рост: ${actor.height} см`;
-    }
+if (actor.height) {
+  const line = document.createElement('div');
+  line.textContent = `Рост: ${actor.height} см`;
+  details.appendChild(line);
+}
 
-    card.appendChild(details);
-    container.appendChild(card);
+card.appendChild(details);
+container.appendChild(card);
   });
     }
   </script>
