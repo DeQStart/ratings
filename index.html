@@ -400,6 +400,7 @@
     title: 'Бригада',
     year: 2002,
     avgRating: 9.5,
+    isVip: true
     director: 'Алексей Сидоров',
     producer: 'Александр Акопов',
     actors: ['Сергей Безруков', 'Дмитрий Дюжев'],
@@ -567,7 +568,6 @@ function formatDate(dateString) {
 }
 
 function getRatingClass(movie) {
-  // Сначала проверяем VIP-статус
   if (movie.isVip) {
     return 'rating-vip';
   }
@@ -575,7 +575,7 @@ function getRatingClass(movie) {
   const r = movie.avgRating ?? 0;
 
   if (r === 0) return 'rating-neutral';
-  if (r > 8.5) return 'rating-vip';
+  // Убрали автоматическое VIP по рейтингу
   if (r < 5) return 'rating-bad';
   if (r < 7) return 'rating-neutral';
 
